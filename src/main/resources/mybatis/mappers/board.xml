@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="board">
+    <select id="getList" resultType="BoardVo">
+        <![CDATA[
+
+
+                select  b.board_no as boardNo,
+                        b.title as title,
+                        b.views as views,
+                        b.reg_date as regDate,
+                        b.content as content,
+                        b.writer_no as writerNo,
+                        u.name as writer
+                from    board b, users u
+                where   b.writer_no = u.no
+                order by boardNo desc
+
+        ]]>
+    </select>
+
+    <update id="updateView" parameterType="int">
+        update  board
+        set views = views+1
+        where   board_no = #{no}
+    </update>
+
+    <select id="getBoard" parameterType="int" resultType="BoardVo">
+        <![CDATA[
+
+
+                select  b.board_no as boardNo,
+                        b.title as title,
+                        b.views as views,
+                        b.reg_date as regDate,
+                        b.content as content,
+                        b.writer_no as writerNo,
+                        u.name as writer
+                from    board b, users u
+                where   b.writer_no = u.no and b.board_no = #{no}
+
+
+        ]]>
+    </select>
+
+    <insert id="insert" parameterType="BoardVo">
+        <selectKey keyProperty="boardNo" resultType="int" order="BEFORE">
+             <![CDATA[
+                select SEQ_BOARD_NO.nextval from dual
+            ]]>
+        </selectKey>
+        <![CDATA[
+            insert into board
+            values(#{boardNo}, #{title}, '0', sysdate, #{content}, #{writerNo})
+        ]]>
+    </insert>
+
+    <update id="update" parameterType="BoardVo">
+        <![CDATA[
+            update board
+            set title = #{title}, content = #{content}
+            where board_no = #{boardNo}
+        ]]>
+    </update>
+
+    <delete id="delete" parameterType="int">
+        <![CDATA[
+            delete  board
+            where   board_no = #{boardNo}
+        ]]>
+    </delete>
+</mapper>
