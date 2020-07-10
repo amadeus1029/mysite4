@@ -24,7 +24,7 @@ public class BoardController {
     public String list(Model model) {
         List<BoardVo> boardList = boardService.getList();
         model.addAttribute("boardList",boardList);
-        return "board/list?page=1";
+        return "board/list";
     }
 
     @RequestMapping(value = "/read")
