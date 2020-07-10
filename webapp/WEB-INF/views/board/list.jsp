@@ -17,7 +17,7 @@
 
         <c:import url="/WEB-INF/views/include/header.jsp"></c:import>
 
-        <c:import url="/WEB-INF/views/include/userAside.jsp"></c:import>
+        <c:import url="/WEB-INF/views/include/boardAside.jsp"></c:import>
 
         <div id="content">
 
