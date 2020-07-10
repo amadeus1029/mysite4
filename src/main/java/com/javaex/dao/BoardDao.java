@@ -2,6 +2,7 @@ package com.javaex.dao;
 
 
 import com.javaex.vo.BoardVo;
+import com.javaex.vo.SearchVo;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -14,15 +15,24 @@ public class BoardDao {
     @Autowired
     private SqlSession sqlSession;
 
-    //게ㅅ글 리스트 뽑아주기
+    //게시글 리스트 뽑아주기
     public List<BoardVo> getList() {
         return sqlSession.selectList("board.getList");
     }
 
+    //게ㅅ글 검색
+    public List<BoardVo> getList(SearchVo searchVo) {
+        return sqlSession.selectList("board.searchList",searchVo);
+    }
+
     //게시글 읽기
     public BoardVo getBoard(int boardNo) {
-        sqlSession.update("board.updateView",boardNo); //조회수 1 추가
         return sqlSession.selectOne("board.getBoard",boardNo);
+    }
+
+    //게시글 조회수 증가
+    public void increaseHit(int boardNo) {
+        sqlSession.update("board.increaseHit",boardNo); //조회수 1 추가
     }
 
     //게시글 작성

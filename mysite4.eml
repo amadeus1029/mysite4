@@ -6,6 +6,7 @@
 		<excludeFolder url="file://$MODULE_DIR$/target"/>
 	</contentEntry>
 	<levels>
+		<level name="Java EE 6-Java EE 6" value="project"/>
 		<level name="Maven: org.springframework:spring-context:4.3.3.RELEASE" value="project"/>
 		<level name="Maven: org.springframework:spring-aop:4.3.3.RELEASE" value="project"/>
 		<level name="Maven: org.springframework:spring-beans:4.3.3.RELEASE" value="project"/>
@@ -26,6 +27,5 @@
 		<level name="Maven: org.springframework:spring-tx:4.3.3.RELEASE" value="project"/>
 		<level name="Maven: org.mybatis:mybatis:3.2.2" value="project"/>
 		<level name="Maven: org.mybatis:mybatis-spring:1.2.0" value="project"/>
-		<level name="Java EE 6-Java EE 6" value="project"/>
 	</levels>
 </component>

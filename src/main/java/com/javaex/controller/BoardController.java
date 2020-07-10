@@ -2,6 +2,7 @@ package com.javaex.controller;
 
 import com.javaex.service.BoardService;
 import com.javaex.vo.BoardVo;
+import com.javaex.vo.SearchVo;
 import com.javaex.vo.UserVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -21,8 +22,14 @@ public class BoardController {
     private BoardService boardService;
 
     @RequestMapping(value = "/list")
-    public String list(Model model) {
-        List<BoardVo> boardList = boardService.getList();
+    public String list(Model model, @ModelAttribute SearchVo searchVo) {
+        List<BoardVo> boardList;
+        if(searchVo.getKeyword() != null) {
+            boardList = boardService.getList(searchVo);
+        } else {
+            boardList = boardService.getList();
+        }
+
         model.addAttribute("boardList",boardList);
         return "board/list";
     }

@@ -2,6 +2,7 @@ package com.javaex.service;
 
 import com.javaex.dao.BoardDao;
 import com.javaex.vo.BoardVo;
+import com.javaex.vo.SearchVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,7 +18,13 @@ public class BoardService {
         return boardDao.getList();
     }
 
+    public List<BoardVo> getList(SearchVo searchVo) {
+        System.out.println(searchVo.toString());
+        return boardDao.getList(searchVo);
+    }
+
     public BoardVo getBoard(int boardNo) {
+        boardDao.increaseHit(boardNo);
         return boardDao.getBoard(boardNo);
     }
 

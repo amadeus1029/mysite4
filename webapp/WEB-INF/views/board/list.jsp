@@ -36,9 +36,16 @@
 
             <div id="board">
                 <div id="list">
-                    <form action="" method="">
+                    <form action="${pageContext.request.contextPath }/board/list" method="get">
                         <div class="form-group text-right">
-                            <input type="text">
+                            <c:set var="searched" value="${param.category}"/>
+                            <select id="searchCategory" name="category">
+                                <option ${searched eq 'title' || searched eq null ? 'selected':'' } value="title">제목</option>
+                                <option ${searched eq 'content'  ? 'selected':'' } value="content">내용</option>
+                                <option ${searched eq 'titleContent'  ? 'selected':'' } value="titleContent">제목 + 내용</option>
+                                <option ${searched eq 'writer' ? 'selected':'' } value="writer">작성자</option>
+                            </select>
+                            <input type="text" name="keyword" value="${param.keyword}">
                             <button type="submit" id=btn_search>검색</button>
                         </div>
                     </form>
