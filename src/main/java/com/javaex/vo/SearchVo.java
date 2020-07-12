@@ -2,13 +2,15 @@ package com.javaex.vo;
 
 public class SearchVo {
     private String category, keyword;
+    private int page;
 
     public SearchVo() {
     }
 
-    public SearchVo(String category, String keyword) {
+    public SearchVo(String category, String keyword, int page) {
         this.category = category;
         this.keyword = keyword;
+        this.page = page;
     }
 
     public String getCategory() {
@@ -27,11 +29,20 @@ public class SearchVo {
         this.keyword = keyword;
     }
 
+    public int getPage() {
+        return page;
+    }
+
+    public void setPage(int page) {
+        this.page = page;
+    }
+
     @Override
     public String toString() {
         return "SearchVo{" +
                 "category='" + category + '\'' +
                 ", keyword='" + keyword + '\'' +
+                ", page=" + page +
                 '}';
     }
 }

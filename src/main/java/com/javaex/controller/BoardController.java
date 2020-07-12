@@ -22,14 +22,14 @@ public class BoardController {
     private BoardService boardService;
 
     @RequestMapping(value = "/list")
-    public String list(Model model, @ModelAttribute SearchVo searchVo) {
-        List<BoardVo> boardList;
-        if(searchVo.getKeyword() != null) {
-            boardList = boardService.getList(searchVo);
-        } else {
-            boardList = boardService.getList();
-        }
+    public String list(Model model, @ModelAttribute SearchVo searchVo, @RequestParam(value = "page", defaultValue = "1") int page) {
 
+        List<BoardVo> boardList;
+        searchVo.setPage(page);
+        boardList = boardService.getList(searchVo);
+        int totalCount = boardService.getCount(searchVo);
+        model.addAttribute("page",page);
+        model.addAttribute("totalCount",totalCount);
         model.addAttribute("boardList",boardList);
         return "board/list";
     }

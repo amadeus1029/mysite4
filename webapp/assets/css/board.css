@@ -51,20 +51,27 @@
 
 /* 게시판 페이징 */
 #board #list #paging {
-	margin: 0px auto;
-	width: 310px;
+	padding-top: 15px;
+	text-align: center;
 }
 
 #board #list #paging ul {margin: 10px 5px 10px 5px;}
 #board #list #paging ul>li{
-	float: left;
-	margin: 0px 8px 0px 8px;
+	display: inline-block;
+	margin: 0 10px;
 }
 
 #board #list #paging ul>li.active{
 	font-size: 14px;
 	font-weight: bold;
+	pointer-events: none;
 }
+
+#board #list #paging ul>li>a.off{
+	opacity: 0.5;
+	pointer-events: none;
+}
+
 
 /* 글쓰기 버튼 */
 #board #list #btn_write {

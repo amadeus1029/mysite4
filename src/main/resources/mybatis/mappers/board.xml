@@ -2,41 +2,55 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="board">
-    <select id="getList" resultType="BoardVo">
+    <select id="getList" resultType="BoardVo" parameterType="SearchVo">
         <![CDATA[
 
-
-
-
-
-
-                                                select  b.board_no as boardNo,
-                                                        b.title as title,
-                                                        b.views as views,
-                                                        b.reg_date as regDate,
-                                                        b.content as content,
-                                                        b.writer_no as writerNo,
-                                                        u.name as writer
-                                                from    board b, users u
-                                                where   b.writer_no = u.no
-                                                order by boardNo desc
-
-
-
-
+                    select  orderdBoard.*
+                    from   (select  rownum rn,
+                                    board.*
+                            from   (select  b.board_no as boardNo,
+                                            b.title as title,
+                                            b.views as views,
+                                            b.reg_date as regDate,
+                                            b.content as content,
+                                            b.writer_no as writerNo,
+                                            u.name as writer
+                                    from    board b, users u
+                                    where   b.writer_no = u.no
+        ]]>
+        <choose>
+            <when test='category != null and category.equals("title")'>
+                <![CDATA[
+                    and b.title like '%' || #{keyword} || '%'
+                ]]>
+            </when>
+            <when test='category != null and category.equals("content")'>
+                <![CDATA[
+                    and b.content like '%' || #{keyword} || '%'
+                ]]>
+            </when>
+            <when test='category != null and category.equals("writer")'>
+                <![CDATA[
+                    and u.name like '%' || #{keyword} || '%'
+                ]]>
+            </when>
+            <when test='category != null and category.equals("titleContent")'>
+                <![CDATA[
+                    and (b.title like '%' || #{keyword} || '%' or b.content like '%' || #{keyword} || '%')
+                ]]>
+            </when>
+        </choose>
+        <![CDATA[
+                                    order by boardNo desc) board
+                                    ) orderdBoard
+                    where   rn>=(#{page}*5-4) and rn<=(#{page}*5)
 
         ]]>
     </select>
 
-    <select id="searchList" resultType="BoardVo" parameterType="SearchVo">
+    <select id="getCount" parameterType="SearchVo" resultType="int">
         <![CDATA[
-            select  b.board_no as boardNo,
-                    b.title as title,
-                    b.views as views,
-                    b.reg_date as regDate,
-                    b.content as content,
-                    b.writer_no as writerNo,
-                    u.name as writer
+            select  count(*)
             from    board b, users u
             where   b.writer_no = u.no
         ]]>
@@ -56,16 +70,12 @@
                     and u.name like '%' || #{keyword} || '%'
                 ]]>
             </when>
-            <otherwise>
+            <when test='category != null and category.equals("titleContent")'>
                 <![CDATA[
                     and (b.title like '%' || #{keyword} || '%' or b.content like '%' || #{keyword} || '%')
                 ]]>
-            </otherwise>
+            </when>
         </choose>
-        <![CDATA[
-            order by boardNo desc
-        ]]>
-
     </select>
 
     <update id="increaseHit" parameterType="int">
@@ -77,25 +87,15 @@
     <select id="getBoard" parameterType="int" resultType="BoardVo">
         <![CDATA[
 
-
-
-
-
-
-                                                select  b.board_no as boardNo,
-                                                        b.title as title,
-                                                        b.views as views,
-                                                        b.reg_date as regDate,
-                                                        b.content as content,
-                                                        b.writer_no as writerNo,
-                                                        u.name as writer
-                                                from    board b, users u
-                                                where   b.writer_no = u.no and b.board_no = #{no}
-
-
-
-
-
+                    select  b.board_no as boardNo,
+                            b.title as title,
+                            b.views as views,
+                            b.reg_date as regDate,
+                            b.content as content,
+                            b.writer_no as writerNo,
+                            u.name as writer
+                    from    board b, users u
+                    where   b.writer_no = u.no and b.board_no = #{no}
 
         ]]>
     </select>
@@ -118,9 +118,11 @@
 
 
 
-                                            update board
-                                            set title = #{title}, content = #{content}
-                                            where board_no = #{boardNo}
+
+                                                    update board
+                                                    set title = #{title}, content = #{content}
+                                                    where board_no = #{boardNo}
+
 
 
 
@@ -134,8 +136,10 @@
 
 
 
-                                            delete  board
-                                            where   board_no = #{boardNo}
+
+                                                    delete  board
+                                                    where   board_no = #{boardNo}
+
 
 
 

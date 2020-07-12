@@ -16,13 +16,13 @@ public class BoardDao {
     private SqlSession sqlSession;
 
     //게시글 리스트 뽑아주기
-    public List<BoardVo> getList() {
-        return sqlSession.selectList("board.getList");
+    public List<BoardVo> getList(SearchVo searchVo) {
+        return sqlSession.selectList("board.getList",searchVo);
     }
 
-    //게ㅅ글 검색
-    public List<BoardVo> getList(SearchVo searchVo) {
-        return sqlSession.selectList("board.searchList",searchVo);
+    //게시물 갯수 뽑아주기
+    public int getCount(SearchVo searchVo) {
+        return sqlSession.selectOne("board.getCount",searchVo);
     }
 
     //게시글 읽기

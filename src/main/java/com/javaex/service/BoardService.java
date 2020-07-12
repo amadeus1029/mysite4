@@ -14,13 +14,12 @@ public class BoardService {
     @Autowired
     private BoardDao boardDao;
 
-    public List<BoardVo> getList() {
-        return boardDao.getList();
+    public List<BoardVo> getList(SearchVo searchVo) {
+        return boardDao.getList(searchVo);
     }
 
-    public List<BoardVo> getList(SearchVo searchVo) {
-        System.out.println(searchVo.toString());
-        return boardDao.getList(searchVo);
+    public int getCount(SearchVo searchVo) {
+        return boardDao.getCount(searchVo);
     }
 
     public BoardVo getBoard(int boardNo) {

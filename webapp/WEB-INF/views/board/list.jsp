@@ -77,26 +77,8 @@
                             </c:forEach>
                         </tbody>
                     </table>
+                    <c:import url="/WEB-INF/views/include/boardPaging.jsp"></c:import>
 
-                    <div id="paging">
-                        <ul>
-                            <li><a href="">◀</a></li>
-                            <li><a href="">1</a></li>
-                            <li><a href="">2</a></li>
-                            <li><a href="">3</a></li>
-                            <li><a href="">4</a></li>
-                            <li class="active"><a href="">5</a></li>
-                            <li><a href="">6</a></li>
-                            <li><a href="">7</a></li>
-                            <li><a href="">8</a></li>
-                            <li><a href="">9</a></li>
-                            <li><a href="">10</a></li>
-                            <li><a href="">▶</a></li>
-                        </ul>
-
-
-                        <div class="clear"></div>
-                    </div>
                     <c:choose>
                         <c:when test="${authUser ne null}">
                             <a id="btn_write" href="${pageContext.request.contextPath }/board/writeForm">글쓰기</a>
