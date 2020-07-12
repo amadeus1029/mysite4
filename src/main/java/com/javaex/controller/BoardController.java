@@ -53,7 +53,6 @@ public class BoardController {
 
         boardService.write(boardVo);
         int goTo = boardVo.getBoardNo();
-        System.out.println(goTo);
 
         return "redirect:read?boardNo="+goTo;
     }
@@ -68,7 +67,7 @@ public class BoardController {
     @RequestMapping(value ="/modify")
     public String modify(@ModelAttribute BoardVo boardVo,HttpSession session) {
         UserVo authUser = (UserVo)session.getAttribute("authUser");
-        if(boardVo.getWriterNo() == authUser.getNo()) { //url 변조 대비
+        if(boardVo.getWriterNo() == authUser.getNo()) { //url 변조 방지
             boardService.modify(boardVo);
         }
         return "redirect:read?boardNo="+boardVo.getBoardNo();
@@ -77,7 +76,7 @@ public class BoardController {
     @RequestMapping(value ="/delete")
     public String delete(@RequestParam("boardNo") int boardNo,@RequestParam("writerNo") int writerNo, HttpSession session) {
         UserVo authUser = (UserVo)session.getAttribute("authUser");
-        if(writerNo == authUser.getNo()) { //url 변조 대비
+        if(writerNo == authUser.getNo()) { //url 변조 방지
             boardService.delete(boardNo);
         }
         return "redirect:list";

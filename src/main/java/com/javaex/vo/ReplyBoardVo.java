@@ -1,14 +1,14 @@
 package com.javaex.vo;
 
 public class ReplyBoardVo {
-    private int rBoardNo, userNo, hit, groupNo, orderNo, depth, deleted;
+    private int replyBoardNo, userNo, hit, groupNo, orderNo, depth, deleted;
     private String title, content, regDate;
 
     public ReplyBoardVo() {
     }
 
-    public ReplyBoardVo(int rBoardNo, int userNo, int hit, int groupNo, int orderNo, int depth, int deleted, String title, String content, String regDate) {
-        this.rBoardNo = rBoardNo;
+    public ReplyBoardVo(int replyBoardNo, int userNo, int hit, int groupNo, int orderNo, int depth, int deleted, String title, String content, String regDate) {
+        this.replyBoardNo = replyBoardNo;
         this.userNo = userNo;
         this.hit = hit;
         this.groupNo = groupNo;
@@ -20,12 +20,12 @@ public class ReplyBoardVo {
         this.regDate = regDate;
     }
 
-    public int getrBoardNo() {
-        return rBoardNo;
+    public int getReplyBoardNo() {
+        return replyBoardNo;
     }
 
-    public void setrBoardNo(int rBoardNo) {
-        this.rBoardNo = rBoardNo;
+    public void setReplyBoardNo(int replyBoardNo) {
+        this.replyBoardNo = replyBoardNo;
     }
 
     public int getUserNo() {
@@ -103,7 +103,7 @@ public class ReplyBoardVo {
     @Override
     public String toString() {
         return "ReplyBoardVo{" +
-                "rBoardNo=" + rBoardNo +
+                "replyBoardNo=" + replyBoardNo +
                 ", userNo=" + userNo +
                 ", hit=" + hit +
                 ", groupNo=" + groupNo +

@@ -42,7 +42,6 @@ public class BoardDao {
 
     //게시글 수정
     public void modify(BoardVo boardVo) {
-        System.out.println(boardVo.toString());
         sqlSession.update("board.update",boardVo);
     }
 
