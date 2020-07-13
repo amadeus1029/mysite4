@@ -1,16 +1,18 @@
 package com.javaex.vo;
 
 public class PageVo {
-    private int currPage, beginPage, endPage, totalPage;
+    private int currPage, beginPage, endPage, totalPage, pageView, pageNum;
 
     public PageVo() {
     }
 
-    public PageVo(int currPage, int beginPage, int endPage, int totalPage) {
+    public PageVo(int currPage, int beginPage, int endPage, int totalPage, int pageView, int pageNum) {
         this.currPage = currPage;
         this.beginPage = beginPage;
         this.endPage = endPage;
         this.totalPage = totalPage;
+        this.pageView = pageView;
+        this.pageNum = pageNum;
     }
 
     public int getCurrPage() {
@@ -45,6 +47,22 @@ public class PageVo {
         this.totalPage = totalPage;
     }
 
+    public int getPageView() {
+        return pageView;
+    }
+
+    public void setPageView(int pageView) {
+        this.pageView = pageView;
+    }
+
+    public int getPageNum() {
+        return pageNum;
+    }
+
+    public void setPageNum(int pageNum) {
+        this.pageNum = pageNum;
+    }
+
     @Override
     public String toString() {
         return "PageVo{" +
@@ -52,6 +70,8 @@ public class PageVo {
                 ", beginPage=" + beginPage +
                 ", endPage=" + endPage +
                 ", totalPage=" + totalPage +
+                ", pageView=" + pageView +
+                ", pageNum=" + pageNum +
                 '}';
     }
 }

@@ -33,6 +33,8 @@ public class BoardService {
         }
 
         PageVo pageVo = new PageVo();
+        pageVo.setPageNum(pageNum);
+        pageVo.setPageView(pageView);
         pageVo.setCurrPage(currPage);
         pageVo.setTotalPage(totalPage);
         pageVo.setBeginPage(beginPage);
