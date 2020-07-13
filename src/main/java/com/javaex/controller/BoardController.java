@@ -2,6 +2,7 @@ package com.javaex.controller;
 
 import com.javaex.service.BoardService;
 import com.javaex.vo.BoardVo;
+import com.javaex.vo.PageVo;
 import com.javaex.vo.SearchVo;
 import com.javaex.vo.UserVo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,15 +22,14 @@ public class BoardController {
     @Autowired
     private BoardService boardService;
 
+
     @RequestMapping(value = "/list")
     public String list(Model model, @ModelAttribute SearchVo searchVo, @RequestParam(value = "page", defaultValue = "1") int page) {
-
         List<BoardVo> boardList;
         searchVo.setPage(page);
+        PageVo pageVo = boardService.getPageInfo(searchVo);
         boardList = boardService.getList(searchVo);
-        int totalCount = boardService.getCount(searchVo);
-        model.addAttribute("page",page);
-        model.addAttribute("totalCount",totalCount);
+        model.addAttribute("pageVo",pageVo);
         model.addAttribute("boardList",boardList);
         return "board/list";
     }

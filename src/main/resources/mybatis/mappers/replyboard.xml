@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="replyboard">
+    <select id="getList" resultType="BoardVo" parameterType="SearchVo">
+        <![CDATA[
+
+                    select  orderdBoard.*
+                    from   (select  rownum rn,
+                                    board.*
+                            from   (select  b.board_no as boardNo,
+                                            b.title as title,
+                                            b.views as views,
+                                            b.reg_date as regDate,
+                                            b.content as content,
+                                            b.writer_no as writerNo,
+                                            u.name as writer
+                                    from    board b, users u
+                                    where   b.writer_no = u.no
+        ]]>
+        <choose>
+            <when test='category != null and category.equals("title")'>
+                <![CDATA[
+                    and b.title like '%' || #{keyword} || '%'
+                ]]>
+            </when>
+            <when test='category != null and category.equals("content")'>
+                <![CDATA[
+                    and b.content like '%' || #{keyword} || '%'
+                ]]>
+            </when>
+            <when test='category != null and category.equals("writer")'>
+                <![CDATA[
+                    and u.name like '%' || #{keyword} || '%'
+                ]]>
+            </when>
+            <when test='category != null and category.equals("titleContent")'>
+                <![CDATA[
+                    and (b.title like '%' || #{keyword} || '%' or b.content like '%' || #{keyword} || '%')
+                ]]>
+            </when>
+        </choose>
+        <![CDATA[
+                                    order by boardNo desc) board
+                                    ) orderdBoard
+                    where   rn>=(#{page}*5-4) and rn<=(#{page}*5)
+
+        ]]>
+    </select>
+
+    <select id="getCount" parameterType="SearchVo" resultType="int">
+        <![CDATA[
+            select  count(*)
+            from    board b, users u
+            where   b.writer_no = u.no
+        ]]>
+        <choose>
+            <when test='category != null and category.equals("title")'>
+                <![CDATA[
+                    and b.title like '%' || #{keyword} || '%'
+                ]]>
+            </when>
+            <when test='category != null and category.equals("content")'>
+                <![CDATA[
+                    and b.content like '%' || #{keyword} || '%'
+                ]]>
+            </when>
+            <when test='category != null and category.equals("writer")'>
+                <![CDATA[
+                    and u.name like '%' || #{keyword} || '%'
+                ]]>
+            </when>
+            <when test='category != null and category.equals("titleContent")'>
+                <![CDATA[
+                    and (b.title like '%' || #{keyword} || '%' or b.content like '%' || #{keyword} || '%')
+                ]]>
+            </when>
+        </choose>
+    </select>
+
+    <update id="increaseHit" parameterType="int">
+        update  board
+        set views = views+1
+        where   board_no = #{no}
+    </update>
+
+    <select id="getBoard" parameterType="int" resultType="BoardVo">
+        <![CDATA[
+
+                    select  b.board_no as boardNo,
+                            b.title as title,
+                            b.views as views,
+                            b.reg_date as regDate,
+                            b.content as content,
+                            b.writer_no as writerNo,
+                            u.name as writer
+                    from    board b, users u
+                    where   b.writer_no = u.no and b.board_no = #{no}
+
+        ]]>
+    </select>
+
+    <insert id="insert" parameterType="BoardVo">
+        <selectKey keyProperty="boardNo" resultType="int" order="BEFORE">
+            <![CDATA[
+                select SEQ_BOARD_NO.nextval from dual
+            ]]>
+        </selectKey>
+        <![CDATA[
+            insert into board
+            values(#{boardNo}, #{title}, '0', sysdate, #{content}, #{writerNo})
+        ]]>
+    </insert>
+
+    <update id="update" parameterType="BoardVo">
+        <![CDATA[
+
+
+
+
+
+                                                    update board
+                                                    set title = #{title}, content = #{content}
+                                                    where board_no = #{boardNo}
+
+
+
+
+
+        ]]>
+    </update>
+
+    <delete id="delete" parameterType="int">
+        <![CDATA[
+
+
+
+
+
+                                                    delete  board
+                                                    where   board_no = #{boardNo}
+
+
+
+
+
+        ]]>
+    </delete>
+</mapper>
