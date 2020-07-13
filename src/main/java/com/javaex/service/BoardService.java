@@ -40,10 +40,6 @@ public class BoardService {
         return pageVo;
     }
 
-    public int getCount(SearchVo searchVo) {
-        return boardDao.getCount(searchVo);
-    }
-
     public BoardVo getBoard(int boardNo) {
         boardDao.increaseHit(boardNo);
         return boardDao.getBoard(boardNo);
