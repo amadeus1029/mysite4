@@ -21,6 +21,14 @@ public class GuestbookDao {
         return sqlSession.insert("guestbook.insert",guestbookVo);
     }
 
+    public void insertSelectKey(GuestbookVo guestbookVo) {
+       sqlSession.insert("guestbook.insertSelectKey", guestbookVo);
+    }
+
+    public GuestbookVo selectByNo(int no) {
+       return  sqlSession.selectOne("guestbook.selectByNo",no);
+    }
+
     public int delete(GuestbookVo guestbookVo) {
         return sqlSession.delete("guestbook.delete",guestbookVo);
     }

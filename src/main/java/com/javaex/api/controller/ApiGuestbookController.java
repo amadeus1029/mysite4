@@ -4,8 +4,7 @@ import com.javaex.service.GuestbookService;
 import com.javaex.vo.GuestbookVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -22,5 +21,18 @@ public class ApiGuestbookController {
         List<GuestbookVo> gbList = guestbookService.getList();
         return gbList;
     }
+
+    @ResponseBody
+    @RequestMapping(value = "/write", method = RequestMethod.POST) //이건 걍 싸본거 + json데이터 받아보기
+    public GuestbookVo write(@RequestBody GuestbookVo guestbookVo) {
+        return guestbookService.addGuest(guestbookVo);
+    }
+
+    @ResponseBody
+    @RequestMapping(value ="/delete")
+    public int delete(@ModelAttribute GuestbookVo guestbookVo) {
+        return guestbookService.delete(guestbookVo);
+    }
+
 
 }

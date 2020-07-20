@@ -10,6 +10,7 @@
                     content,
                     reg_date as regDate
             from    guestbook
+            order by no asc
 
         ]]>
     </select>
@@ -19,6 +20,29 @@
             values(seq_no_id.nextVal, #{name}, #{password}, #{content}, sysdate)
         ]]>
     </insert>
+
+    <insert id="insertSelectKey" parameterType="GuestbookVo">
+        <selectKey keyProperty="no" resultType="int" order="BEFORE">
+            <![CDATA[
+                select seq_no_id.nextVal from dual
+            ]]>
+        </selectKey>
+        <![CDATA[
+            insert into guestbook
+            values(#{no}, #{name}, #{password}, #{content}, sysdate)
+        ]]>
+    </insert>
+
+    <select id="selectByNo" parameterType="int" resultType="GuestbookVo">
+        <![CDATA[
+            select  no,
+                    name,
+                    content,
+                    reg_date as regDate
+            from    guestbook
+            where   no = #{no}
+        ]]>
+    </select>
 
     <delete id="delete" parameterType="GuestbookVo">
         <![CDATA[

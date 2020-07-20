@@ -22,6 +22,12 @@ public class GuestbookService {
         return guestbookDao.insert(guestbookVo);
     }
 
+    public GuestbookVo addGuest(GuestbookVo guestbookVo) {
+        guestbookDao.insertSelectKey(guestbookVo);
+        int no = guestbookVo.getNo();
+        return guestbookDao.selectByNo(no);
+    }
+
     public int delete(GuestbookVo guestbookVo) {
         return guestbookDao.delete(guestbookVo);
     }
