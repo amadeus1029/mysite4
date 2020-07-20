@@ -3,7 +3,11 @@
 <div id="aside">
     <h2>방명록</h2>
     <ul>
-        <li>일반방명록</li>
-        <li>ajax방명록</li>
+        <li>
+            <a href="${pageContext.request.contextPath }/guestbook/list">일반방명록</a>
+        </li>
+        <li>
+            <a href="${pageContext.request.contextPath }/guestbook/ajaxList">ajax방명록</a>
+        </li>
     </ul>
 </div>

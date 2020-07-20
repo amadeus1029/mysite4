@@ -10,6 +10,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 @RequestMapping("/user")
@@ -70,5 +72,21 @@ public class UserController {
         userService.modify(userVo);
         authUser.setName(userVo.getName());
         return "redirect:/main";
+    }
+    /*
+    AJAX 관련코드 시작
+    */
+
+    //아이디 중복체크
+    @ResponseBody
+    @RequestMapping(value = "/idcheck")
+    public boolean idcheck(@RequestParam("userId") String userId) {
+        UserVo userVo = userService.checkId(userId);
+
+        if(userVo == null) {
+            return false;
+        } else {
+            return true;
+        }
     }
 }

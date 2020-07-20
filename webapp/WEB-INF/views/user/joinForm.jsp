@@ -8,7 +8,7 @@
 <title>Insert title here</title>
 <link href="${pageContext.request.contextPath }/assets/css/mysite.css" rel="stylesheet" type="text/css">
 <link href="${pageContext.request.contextPath }/assets/css/user.css" rel="stylesheet" type="text/css">
-
+<script src="${pageContext.request.contextPath }/assets/js/jquery/jquery-1.12.4.min.js"></script>
 </head>
 
 <body>
@@ -41,7 +41,8 @@
 						<div class="form-group">
 							<label class="form-text" for="input-uid">아이디</label> 
 							<input type="text" id="input-uid" name="id" value="" placeholder="아이디를 입력하세요">
-							<button type="button" id="">중복체크</button>
+							<button type="button" id="chkIdBtn">중복체크</button>
+							<span id="checkMsg"></span>
 						</div>
 
 						<!-- 비밀번호 -->
@@ -93,7 +94,29 @@
 
 	</div>
 	<!-- //wrap -->
-
+	<script type="text/javascript">
+		$("#chkIdBtn").on("click",function () {
+			var inputIdVal = $(this).prev("input#input-uid").val();
+			$.ajax({
+				url: "${pageContext.request.contextPath}/user/idcheck?userId="+inputIdVal,
+				type: "post",
+				/*contentType: "application/json",
+				data: {id: inputIdVal},*/
+				dataType: "json",
+				success: function(userVo) {
+					console.log(userVo);
+					if(userVo != null) {
+						$("#checkMsg").html("<font color='red'>시용불가</font>")
+					} else {
+						$("#checkMsg").html("<font color='red'>시용가능</font>")
+					}
+				},
+				error: function (XHR,status,error) {
+					console.error(status+":"+error);
+				}
+			})
+		})
+	</script>
 </body>
 
 </html>

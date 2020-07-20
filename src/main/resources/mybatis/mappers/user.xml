@@ -39,4 +39,16 @@
             where   no = #{no}
         ]]>
     </update>
+
+    <!--회원정보가져오기-->
+    <select id="selectById" parameterType="string" resultType="UserVo">
+        <![CDATA[
+
+                    select  no,
+                            id
+                    from    users
+                    where   id = #{userId}
+
+        ]]>
+    </select>
 </mapper>

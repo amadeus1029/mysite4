@@ -26,4 +26,8 @@ public class UserDao {
     public int update(UserVo userVo) {
         return sqlSession.update("user.update",userVo);
     }
+
+    public UserVo selectUser(String userId) {
+        return sqlSession.selectOne("user.selectById",userId);
+    }
 }

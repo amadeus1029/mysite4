@@ -28,4 +28,8 @@ public class UserService {
         userDao.update(userVo);
     }
 
+    public UserVo checkId(String userId) {
+        return  userDao.selectUser(userId);
+    }
+
 }

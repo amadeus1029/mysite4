@@ -43,4 +43,13 @@ public class GuestbookController {
         return "redirect:/guestbook/list";
     }
 
+    /*
+    AJAX 방명록
+    */
+
+    @RequestMapping(value="/ajaxList")
+    public String ajaxList(Model model) {
+        return  "guestbook/ajaxList";
+    }
+
 }
