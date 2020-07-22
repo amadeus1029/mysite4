@@ -17,8 +17,7 @@ public class FileUploadController {
 
     @RequestMapping(value="/form")
     public String form() {
-        System.out.println("일단 여기까지는 온다");
-        return "/fileupload/form";
+        return "fileupload/form";
     }
 
     @RequestMapping("/upload")
@@ -28,7 +27,7 @@ public class FileUploadController {
         model.addAttribute("saveName", saveName);
 
 
-        return "/fileupload/result";
+        return "fileupload/result";
     }
 }
 
