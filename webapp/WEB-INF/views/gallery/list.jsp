@@ -46,6 +46,16 @@
 
 
             <div id="gallery">
+                <form action="${pageContext.request.contextPath }/gallery/list" method="get">
+                    <div class="form-group text-right">
+                        <select id="searchCategory" name="category">
+                            <option ${param.category eq 'content' || searched eq null ? 'selected':'' } value="content">내용</option>
+                            <option ${param.category eq 'userName' ? 'selected':'' } value="userName">작성자</option>
+                        </select>
+                        <input type="text" name="keyword" value="${param.keyword}">
+                        <button type="submit" id=btn_search>검색</button>
+                    </div>
+                </form>
                 <div id="list">
 
                     <c:if test="${authUser ne null}">
@@ -55,7 +65,7 @@
 
 
                     <ul id="viewArea">
-                        <c:forEach items="${galleryList}" var="galleryVo">
+                        <c:forEach items="${gallery.galleryList}" var="galleryVo">
                             <li>
                                 <div class="view">
                                     <img class="imgItem" src="${pageContext.request.contextPath }/upload/${galleryVo.saveName}" data-no="${galleryVo.no}" onclick="showViewGalleryModal($(this));">
@@ -64,8 +74,10 @@
                             </li>
                         </c:forEach>
                     </ul>
+                    <div class="clear"></div>
                 </div>
                 <!-- //list -->
+                <c:import url="/WEB-INF/views/include/galleryPaging.jsp"></c:import>
             </div>
             <!-- //board -->
         </div>
@@ -128,6 +140,7 @@
 
                     <div class="formgroup">
                         <p id="viewModalContent"></p>
+                        <p class="">파일크기 : <span id="fileSize"></span></p>
                     </div>
 
                 </div>
@@ -158,12 +171,14 @@
         var modal = $("#viewModal");
         var img = modal.find("#viewModalImg");
         var content = modal.find("#viewModalContent");
+        var fileSize = modal.find("#fileSize");
         var deleteBtn = modal.find("#btnDel");
 
         //일단 모달 내부 내용물 비우기
         img.attr("src","");
         img.attr("data-no","");
         content.text("");
+        fileSize.text("");
 
         //ajax로 요청
 
@@ -178,6 +193,7 @@
                 img.attr("src","${pageContext.request.contextPath }/upload/"+galleryVo.saveName);
                 img.attr("data-no",galleryVo.no);
                 content.text(galleryVo.content);
+                fileSize.text(getfileSize(galleryVo.fileSize));
 
                 //삭제버튼 감춤 유무
                 if(galleryVo.userNo == "${authUser.no}") {
@@ -226,6 +242,11 @@
         })
     }
 
+    function getfileSize(x) {
+        var s = ['bytes', 'kB', 'MB', 'GB', 'TB', 'PB'];
+        var e = Math.floor(Math.log(x) / Math.log(1024));
+        return (x / Math.pow(1024, e)).toFixed(2) + " " + s[e];
+    };
 </script>
 
 

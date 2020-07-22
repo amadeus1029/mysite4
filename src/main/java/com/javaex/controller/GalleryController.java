@@ -3,6 +3,7 @@ package com.javaex.controller;
 
 import com.javaex.service.GalleryService;
 import com.javaex.vo.GalleryVo;
+import com.javaex.vo.SearchVo;
 import com.javaex.vo.UserVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -11,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpSession;
-import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/gallery")
@@ -21,9 +22,10 @@ public class GalleryController {
     private GalleryService galleryService;
 
     @RequestMapping("/list")
-    public String list(Model model) {
-        List<GalleryVo> galleryList = galleryService.getList();
-        model.addAttribute("galleryList",galleryList);
+    public String list(Model model, @ModelAttribute SearchVo searchVo, @RequestParam(value = "page", defaultValue = "1") int page) {
+        searchVo.setPage(page);
+        Map<String, Object> galleryPaging = galleryService.getPageInfo(searchVo);
+        model.addAttribute("gallery",galleryPaging);
         return "gallery/list";
     }
 

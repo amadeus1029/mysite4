@@ -2,18 +2,60 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="gallery">
-    <select id="getList" resultType="GalleryVo">
+    <select id="getList" resultType="GalleryVo" parameterType="SearchVo">
         <![CDATA[
-            select  g.content as content,
-                    g.filePath as filePath,
-                    g.fileSize as fileSize,
-                    g.saveName as saveName,
-                    g.no as no,
-                    g.user_no as userNo,
-                    u.name as userName
+
+                    select  orderdGallery.*
+                    from   (select  rownum rn,
+                                    gallery.*
+                            from   (select  g.content as content,
+                                            g.filePath as filePath,
+                                            g.fileSize as fileSize,
+                                            g.saveName as saveName,
+                                            g.no as no,
+                                            g.user_no as userNo,
+                                            u.name as userName
+                                    from    gallery g, users u
+                                    where   g.user_no = u.no
+        ]]>
+        <choose>
+            <when test='category != null and category.equals("content")'>
+                <![CDATA[
+                    and g.content like '%' || #{keyword} || '%'
+                ]]>
+            </when>
+            <when test='category != null and category.equals("userName")'>
+                <![CDATA[
+                    and u.name like '%' || #{keyword} || '%'
+                ]]>
+            </when>
+        </choose>
+        <![CDATA[
+                                    order by g.no desc) gallery
+                                    ) orderdGallery
+                    where   rn>=(#{page}*#{pageView}-#{pageView}+1) and rn<=(#{page}*#{pageView})
+
+        ]]>
+    </select>
+
+    <select id="getCount" parameterType="SearchVo" resultType="int">
+        <![CDATA[
+            select  count(*)
             from    gallery g, users u
             where   g.user_no = u.no
         ]]>
+        <choose>
+            <when test='category != null and category.equals("content")'>
+                <![CDATA[
+                    and g.content like '%' || #{keyword} || '%'
+                ]]>
+            </when>
+            <when test='category != null and category.equals("userName")'>
+                <![CDATA[
+                    and u.name like '%' || #{keyword} || '%'
+                ]]>
+            </when>
+        </choose>
     </select>
 
     <insert id="insert" parameterType="GalleryVo">

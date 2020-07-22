@@ -2,6 +2,7 @@ package com.javaex.service;
 
 import com.javaex.dao.GalleryDao;
 import com.javaex.vo.GalleryVo;
+import com.javaex.vo.SearchVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -10,7 +11,9 @@ import java.io.BufferedOutputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 @Service
@@ -19,8 +22,30 @@ public class GalleryService {
     @Autowired
     private GalleryDao galleryDao;
 
-    public List<GalleryVo> getList() {
-        return galleryDao.getList();
+    public Map<String, Object> getPageInfo(SearchVo searchVo) {
+        int pageView = 4; //한 페이지에 표시할 게시물 수
+        int pageNum = 10; //화면 하단에 표시할 페이지 최대 갯수
+        int currPage = searchVo.getPage() > 0 ? searchVo.getPage() : 1;
+        int totalPage = (galleryDao.getCount(searchVo)-1)/pageView + 1;
+        int _currPage = (currPage - 1)/pageNum;
+        int beginPage = _currPage*pageNum+1;
+        int endPage = Math.min(_currPage * pageNum + pageNum, totalPage);
+
+        searchVo.setPageView(pageView);
+        List<GalleryVo> galleryList = galleryDao.getList(searchVo);
+
+        Map<String, Object> galleryPaging = new HashMap<String, Object>();
+
+        galleryPaging.put("pageView", pageView);
+        galleryPaging.put("pageNum", pageNum);
+        galleryPaging.put("currPage", currPage);
+        galleryPaging.put("totalPage", totalPage);
+        galleryPaging.put("beginPage", beginPage);
+        galleryPaging.put("endPage", endPage);
+        galleryPaging.put("galleryList", galleryList);
+
+
+        return galleryPaging;
     }
 
     public void add(MultipartFile file, GalleryVo galleryVo) {
