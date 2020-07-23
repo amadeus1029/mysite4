@@ -35,7 +35,7 @@
 
 			<div id="user">
 				<div id="joinForm">
-					<form action="${pageContext.request.contextPath }/user/join" method="get">
+					<form action="${pageContext.request.contextPath }/user/join" method="get" class="join-form">
 
 						<!-- 아이디 -->
 						<div class="form-group">
@@ -115,6 +115,17 @@
 					console.error(status+":"+error);
 				}
 			})
+		})
+		$("#joinForm form.join-form").on("submit", function () {
+			var agree = $(this).find("#chk-agree");
+
+			if(agree.is(":checked")) {
+				console.log("체크 함");
+				return true;
+			} else {
+				console.log("체크 안함")
+				return false;
+			}
 		})
 	</script>
 </body>
