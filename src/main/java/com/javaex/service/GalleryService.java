@@ -50,7 +50,7 @@ public class GalleryService {
     public void add(MultipartFile file, GalleryVo galleryVo) {
 
         //파일 카피
-        String saveDir = "/Users/apolion/work/upload";
+        String saveDir = "/upload";
 
         //파일 이름
         String orgName = file.getOriginalFilename();

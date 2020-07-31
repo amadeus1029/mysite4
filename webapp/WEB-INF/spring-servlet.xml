@@ -63,7 +63,7 @@
 	</bean>
 
 	<!-- url매핑-->
-	<mvc:resources mapping="/upload/**" location="file:/Users/apolion/work/upload/" />
+	<mvc:resources mapping="/upload/**" location="file:/upload/" />
 
 
 </beans>

@@ -27,7 +27,6 @@ public class UserController {
 
     @RequestMapping(value = "/join")
     public String join(@ModelAttribute UserVo userVo) {
-        System.out.println("userservice:join");
         userService.join(userVo);
         return "user/joinOk";
     }
